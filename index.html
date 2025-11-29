@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora Perfusionista</title>
+  <style>
+    :root {
+      /* Primitive Color Tokens */
+      --color-white: rgba(255, 255, 255, 1);
+      --color-black: rgba(0, 0, 0, 1);
+      --color-cream-50: rgba(252, 252, 249, 1);
+      --color-cream-100: rgba(255, 255, 253, 1);
+      --color-gray-200: rgba(245, 245, 245, 1);
+      --color-gray-300: rgba(167, 169, 169, 1);
+      --color-gray-400: rgba(119, 124, 124, 1);
+      --color-slate-500: rgba(98, 108, 113, 1);
+      --color-brown-600: rgba(94, 82, 64, 1);
+      --color-charcoal-700: rgba(31, 33, 33, 1);
+      --color-charcoal-800: rgba(38, 40, 40, 1);
+      --color-slate-900: rgba(19, 52, 59, 1);
+      --color-teal-300: rgba(50, 184, 198, 1);
+      --color-teal-400: rgba(45, 166, 178, 1);
+      --color-teal-500: rgba(33, 128, 141, 1);
+      --color-teal-600: rgba(29, 116, 128, 1);
+      --color-teal-700: rgba(26, 104, 115, 1);
+      --color-teal-800: rgba(41, 150, 161, 1);
+      --color-red-400: rgba(255, 84, 89, 1);
+      --color-red-500: rgba(192, 21, 47, 1);
+      --color-orange-400: rgba(230, 129, 97, 1);
+      --color-orange-500: rgba(168, 75, 47, 1);
+
+      --color-brown-600-rgb: 94, 82, 64;
+      --color-teal-500-rgb: 33, 128, 141;
+      --color-slate-900-rgb: 19, 52, 59;
+      --color-slate-500-rgb: 98, 108, 113;
+      --color-red-500-rgb: 192, 21, 47;
+      --color-red-400-rgb: 255, 84, 89;
+      --color-orange-500-rgb: 168, 75, 47;
+      --color-orange-400-rgb: 230, 129, 97;
+
+      --color-bg-1: rgba(59, 130, 246, 0.08);
+      --color-bg-2: rgba(245, 158, 11, 0.08);
+      --color-bg-3: rgba(34, 197, 94, 0.08);
+      --color-bg-4: rgba(239, 68, 68, 0.08);
+      --color-bg-5: rgba(147, 51, 234, 0.08);
+      --color-bg-6: rgba(249, 115, 22, 0.08);
+      --color-bg-7: rgba(236, 72, 153, 0.08);
+      --color-bg-8: rgba(6, 182, 212, 0.08);
+
+      --color-background: var(--color-cream-50);
+      --color-surface: var(--color-cream-100);
+      --color-text: var(--color-slate-900);
+      --color-text-secondary: var(--color-slate-500);
+      --color-primary: var(--color-teal-500);
+      --color-primary-hover: var(--color-teal-600);
+      --color-primary-active: var(--color-teal-700);
+      --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+      --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+      --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+      --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+      --color-btn-primary-text: var(--color-cream-50);
+      --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+      --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+      --color-error: var(--color-red-500);
+      --color-success: var(--color-teal-500);
+      --color-warning: var(--color-orange-500);
+      --color-info: var(--color-slate-500);
+      --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+      --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+
+      --focus-ring: 0 0 0 3px var(--color-focus-ring);
+      --focus-outline: 2px solid var(--color-primary);
+      --status-bg-opacity: 0.15;
+      --status-border-opacity: 0.25;
+
+      --font-family-base: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-size-sm: 12px;
+      --font-size-base: 14px;
+      --font-size-lg: 16px;
+      --font-size-xl: 18px;
+      --font-size-2xl: 20px;
+      --font-size-3xl: 24px;
+      --font-weight-normal: 400;
+      --font-weight-medium: 500;
+      --font-weight-semibold: 550;
+      --font-weight-bold: 600;
+      --line-height-normal: 1.5;
+
+      --space-4: 4px;
+      --space-8: 8px;
+      --space-12: 12px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+      --space-32: 32px;
+
+      --radius-sm: 6px;
+      --radius-base: 8px;
+      --radius-md: 10px;
+      --radius-lg: 12px;
+
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+    }
+
+    .app-container {
+      background-color: var(--color-bg-1);
+      border-radius: var(--radius-lg);
+      padding: var(--space-24);
+      margin-top: var(--space-24);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-gray-400-rgb: 119, 124, 124;
+        --color-teal-300-rgb: 50, 184, 198;
+        --color-gray-300-rgb: 167, 169, 169;
+        --color-gray-200-rgb: 245, 245, 245;
+
+        --color-bg-1: rgba(29, 78, 216, 0.15);
+        --color-bg-2: rgba(180, 83, 9, 0.15);
+        --color-bg-3: rgba(21, 128, 61, 0.15);
+        --color-bg-4: rgba(185, 28, 28, 0.15);
+        --color-bg-5: rgba(107, 33, 168, 0.15);
+        --color-bg-6: rgba(194, 65, 12, 0.15);
+        --color-bg-7: rgba(190, 24, 93, 0.15);
+        --color-bg-8: rgba(8, 145, 178, 0.15);
+
+        --color-background: var(--color-charcoal-700);
+        --color-surface: var(--color-charcoal-800);
+        --color-text: var(--color-gray-200);
+        --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+        --color-primary: var(--color-teal-300);
+        --color-primary-hover: var(--color-teal-400);
+        --color-primary-active: var(--color-teal-800);
+        --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+        --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+        --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+        --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+        --color-error: var(--color-red-400);
+        --color-success: var(--color-teal-300);
+        --color-warning: var(--color-orange-400);
+        --color-info: var(--color-gray-300);
+        --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
+        --color-btn-primary-text: var(--color-slate-900);
+        --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+        --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+        --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
+      }
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-base);
+      line-height: var(--line-height-normal);
+      color: var(--color-text);
+      background-color: var(--color-background);
+      min-height: 100vh;
+      padding: var(--space-16);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: var(--space-24);
+      color: var(--color-text);
+      background-color: var(--color-surface);
+      padding: var(--space-24);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--color-card-border);
+    }
+
+    h1 {
+      font-size: var(--font-size-3xl);
+      font-weight: var(--font-weight-bold);
+      margin-bottom: var(--space-8);
+    }
+
+    .subtitle {
+      font-size: var(--font-size-base);
+      opacity: 0.9;
+    }
+
+    .tabs {
+      display: flex;
+      gap: var(--space-8);
+      margin-bottom: var(--space-24);
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      flex: 1;
+      min-width: 150px;
+      padding: var(--space-12) var(--space-16);
+      background: var(--color-surface);
+      color: var(--color-text);
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-medium);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn:hover {
+      background: var(--color-secondary-hover);
+      border-color: var(--color-primary);
+    }
+
+    .tab-btn.active {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: var(--color-btn-primary-text);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .card {
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      padding: var(--space-24);
+      margin-bottom: var(--space-16);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--color-card-border);
+    }
+
+    .card-title {
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-semibold);
+      margin-bottom: var(--space-16);
+      color: var(--color-text);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-16);
+      margin-bottom: var(--space-16);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      margin-bottom: var(--space-4);
+      color: var(--color-text);
+    }
+
+    input, select {
+      padding: var(--space-12);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-base);
+      font-size: var(--font-size-base);
+      background: var(--color-surface);
+      color: var(--color-text);
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: var(--focus-ring);
+    }
+
+    .btn {
+      padding: var(--space-12) var(--space-24);
+      background: var(--color-primary);
+      color: var(--color-btn-primary-text);
+      border: none;
+      border-radius: var(--radius-base);
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-medium);
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background: var(--color-primary-hover);
+    }
+
+    .btn-secondary {
+      background: var(--color-secondary);
+      color: var(--color-text);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-secondary-hover);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: var(--space-12);
+      margin-top: var(--space-16);
+    }
+
+    .results {
+      background: var(--color-bg-3);
+      border-radius: var(--radius-md);
+      padding: var(--space-16);
+      margin-top: var(--space-16);
+    }
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      padding: var(--space-8) 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .result-item:last-child {
+      border-bottom: none;
+    }
+
+    .result-label {
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text);
+    }
+
+    .result-value {
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-primary);
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: var(--space-4) var(--space-12);
+      border-radius: var(--radius-sm);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      margin-top: var(--space-8);
+    }
+
+    .status-success {
+      background: rgba(var(--color-teal-500-rgb), 0.15);
+      color: var(--color-success);
+      border: 1px solid rgba(var(--color-teal-500-rgb), 0.25);
+    }
+
+    .status-error {
+      background: rgba(var(--color-red-500-rgb), 0.15);
+      color: var(--color-error);
+      border: 1px solid rgba(var(--color-red-500-rgb), 0.25);
+    }
+
+    .section-title {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-semibold);
+      margin: var(--space-24) 0 var(--space-12) 0;
+      color: var(--color-text);
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+    }
+
+    .section-entrada {
+      background: rgba(239, 68, 68, 0.08);
+      padding: var(--space-16);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-16);
+    }
+
+    .section-saida {
+      background: rgba(59, 130, 246, 0.08);
+      padding: var(--space-16);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-16);
+    }
+
+    .input-with-desc {
+      margin-bottom: var(--space-16);
+    }
+
+    .input-desc {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      margin-top: var(--space-4);
+    }
+
+    .total-row {
+      font-weight: var(--font-weight-bold);
+      font-size: var(--font-size-lg);
+      padding-top: var(--space-12);
+      border-top: 2px solid var(--color-border);
+    }
+
+    .info-box {
+      background: var(--color-bg-1);
+      border-left: 4px solid var(--color-primary);
+      padding: var(--space-16);
+      border-radius: var(--radius-base);
+      margin-bottom: var(--space-16);
+    }
+
+    .info-box-title {
+      font-weight: var(--font-weight-semibold);
+      margin-bottom: var(--space-8);
+      color: var(--color-text);
+    }
+
+    .drug-info {
+      background: var(--color-bg-1);
+      border: 1px solid var(--color-primary);
+      border-radius: var(--radius-md);
+      padding: var(--space-16);
+      margin: var(--space-16) 0;
+    }
+
+    .preparation-steps {
+      background: var(--color-bg-3);
+      border-radius: var(--radius-md);
+      padding: var(--space-16);
+      margin-top: var(--space-16);
+    }
+
+    .step {
+      margin-bottom: var(--space-12);
+      font-size: var(--font-size-base);
+      line-height: 1.6;
+    }
+
+    .bolus-info {
+      background: var(--color-bg-2);
+      border-radius: var(--radius-md);
+      padding: var(--space-16);
+      margin-top: var(--space-16);
+    }
+
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tabs {
+        flex-direction: column;
+      }
+
+      .tab-btn {
+        min-width: 100%;
+      }
+
+      .btn-group {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🏥 Calculadora Perfusionista</h1>
+      <p class="subtitle">Ferramentas práticas para procedimentos de CEC</p>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('perfusao', this)">Perfusão Tecidual</button>
+      <button class="tab-btn" onclick="switchTab('canulas', this)">Cânulas</button>
+      <button class="tab-btn" onclick="switchTab('delnido', this)">Cardioplegia Del Nido</button>
+      <button class="tab-btn" onclick="switchTab('heparina', this)">Heparina/Protamina</button>
+      <button class="tab-btn" onclick="switchTab('eletroliticas', this)">Correções Eletrolíticas</button>
+      <button class="tab-btn" onclick="switchTab('furosemida', this)">Furosemida</button>
+      <button class="tab-btn" onclick="switchTab('manitol', this)">Manitol</button>
+      <button class="tab-btn" onclick="switchTab('perfusato', this)">Perfusato e Hemodiluição</button>
+      <button class="tab-btn" onclick="switchTab('rvs', this)">RVS/SVR</button>
+      <button class="tab-btn" onclick="switchTab('vasoativas', this)">Drogas Vasoativas</button>
+      <button class="tab-btn" onclick="switchTab('gasometria', this)">Avaliação Perfusão (Gasometria)</button>
+    </div>
+
+<!-- TAB 1: PERFUSÃO TECIDUAL -->
+<div id="perfusao" class="tab-content active">
+  <div class="card">
+    <h2 class="card-title">Perfusão Tecidual</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="pt-peso">Peso (kg)</label>
+        <input type="number" id="pt-peso" min="1" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label for="pt-altura">Altura (cm)</label>
+        <input type="number" id="pt-altura" min="1" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label for="pt-fluxo">Tipo de Fluxo</label>
+        <select id="pt-fluxo">
+          <option value="2.4">Mínimo: 2.4 L/min/m²</option>
+          <option value="2.8" selected>Médio: 2.8 L/min/m²</option>
+          <option value="3.2">Máximo: 3.2 L/min/m²</option>
+        </select>
+      </div>
+    </div>
+    <div id="pt-result" style="display:none" class="results">
+      <div class="result-item">
+        <span class="result-label">BSA (m²)</span><span class="result-value" id="pt-bsa"></span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Fluxo Desejado por m²</span><span class="result-value" id="pt-fluxom2"></span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Fluxo Total Desejado (L/min)</span><span class="result-value" id="pt-fluxototal"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 2: CÂNULAS -->
+<div id="canulas" class="tab-content">
+  <!-- Placeholder, will expand with full cannula table and logic in next edit -->
+  <div class="card">
+    <h2 class="card-title">Cânulas</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="can-peso">Peso (kg)</label>
+        <input type="number" id="can-peso" min="1" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label for="can-fluxo">Fluxo Máximo Desejado (L/min)</label>
+        <input type="number" id="can-fluxo" min="0" step="0.1" />
+      </div>
+    </div>
+    <div id="canula-result" style="display:none" class="results"></div>
+    <div id="canula-warning"></div>
+  </div>
+</div>
+
+<!-- TAB 3: CARDIOPLEGIA DEL NIDO -->
+<div id="delnido" class="tab-content">
+  <div class="card">
+    <h2 class="card-title">Cardioplegia Del Nido</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="dn-peso">Peso (kg)</label>
+        <input type="number" id="dn-peso" min="1" step="0.1" />
+      </div>
+    </div>
+    <div id="delnido-result" style="display:none" class="results"></div>
+  </div>
+</div>
+
+<!-- TAB 4: HEPARINA/PROTAMINA -->
+<div id="heparina" class="tab-content">
+  <div class="card">
+    <h2 class="card-title">Heparina/Protamina</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="hep-peso">Peso (kg)</label>
+        <input type="number" id="hep-peso" min="1" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label for="hep-mgkg">Heparina (mg/kg)</label>
+        <select id="hep-mgkg">
+          <option value="3.0">3.0</option>
+          <option value="4.0">4.0</option>
+          <option value="5.0">5.0</option>
+          <option value="6.0">6.0</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="hep-admin">Heparina Administrada (mL)</label>
+        <input type="number" id="hep-admin" min="0" step="0.1" />
+      </div>
+    </div>
+    <div id="heparina-result" style="display:none" class="results"></div>
+  </div>
+</div>
+
+<!-- TAB 5: CORREÇÕES ELETROLÍTICAS -->
+<div id="eletroliticas" class="tab-content">
+  <div class="card">
+    <h2 class="card-title">Correções Eletrolíticas</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="el-peso">Peso (kg)</label>
+        <input type="number" id="el-peso" min="1" step="0.1" />
+      </div>
+    </div>
+    <h3 class="section-title">Potássio (K⁺)</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="k-atual">K⁺ atual (mEq/L)</label>
+        <input type="number" id="k-atual" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label for="k-alvo">K⁺ alvo (mEq/L)</label>
+        <input type="number" id="k-alvo" step="0.1" />
+      </div>
+    </div>
+    <h3 class="section-title">Sódio (Na⁺)</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="na-atual">Na⁺ atual (mEq/L)</label>
+        <input type="number" id="na-atual" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label for="na-alvo">Na⁺ alvo (mEq/L)</label>
+        <input type="number" id="na-alvo" step="0.1" />
+      </div>
+    </div>
+    <h3 class="section-title">Cálcio (Ca²⁺)</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="ca-atual">Ca²⁺ atual (mmol/L)</label>
+        <input type="number" id="ca-atual" step="0.01" />
+      </div>
+      <div class="form-group">
+        <label for="ca-alvo">Ca²⁺ alvo (mmol/L)</label>
+        <input type="number" id="ca-alvo" step="0.01" />
+      </div>
+    </div>
+    <h3 class="section-title">Magnésio (Mg²⁺)</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="mg-atual">Mg²⁺ atual (mEq/L)</label>
+        <input type="number" id="mg-atual" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label for="mg-alvo">Mg²⁺ alvo (mEq/L)</label>
+        <input type="number" id="mg-alvo" step="0.1" />
+      </div>
+    </div>
+    <h3 class="section-title">Bicarbonato (HCO₃⁻)</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="be-atual">Base Excess (mEq/L)</label>
+        <input type="number" id="be-atual" step="0.1" />
+      </div>
+    </div>
+    <h3 class="section-title">Glicose/Insulina</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="gluc-atual">Glicose atual (mg/dL)</label>
+        <input type="number" id="gluc-atual" step="1" />
+      </div>
+      <div class="form-group">
+        <label for="gluc-alvo">Glicose alvo (mg/dL)</label>
+        <input type="number" id="gluc-alvo" step="1" />
+      </div>
+    </div>
+    <div id="eletroliticas-result" style="display:none" class="results"></div>
+  </div>
+</div>
+
+<!-- TAB 6: FUROSEMIDA -->
+<div id="furosemida" class="tab-content">
+  <div class="card">
+    <h2 class="card-title">Furosemida</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="furo-peso">Peso (kg)</label>
+        <input type="number" id="furo-peso" min="1" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label for="furo-dose">Dose</label>
+        <select id="furo-dose">
+          <option value="0.5">0.5 mg/kg</option>
+          <option value="1.0">1.0 mg/kg</option>
+          <option value="20">20 mg</option>
+          <option value="40">40 mg</option>
+          <option value="60">60 mg</option>
+          <option value="80">80 mg</option>
+        </select>
+      </div>
+    </div>
+    <div id="furosemida-result" style="display:none" class="results"></div>
+  </div>
+</div>
+
+<!-- TAB 7: MANITOL -->
+<div id="manitol" class="tab-content">
+  <div class="card">
+    <h2 class="card-title">Manitol</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="mani-peso">Peso (kg)</label>
+        <input type="number" id="mani-peso" min="1" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label for="mani-dose">Dose</label>
+        <select id="mani-dose">
+          <option value="0.5">0.5 g/kg</option>
+          <option value="1.0">1.0 g/kg</option>
+        </select>
+      </div>
+    </div>
+    <div id="manitol-result" style="display:none" class="results"></div>
+  </div>
+</div>
+
+<!-- TAB 8: PERFUSATO E HEMODILUIÇÃO -->
+<div id="perfusato" class="tab-content">
+  <div class="card">
+    <h2 class="card-title">Perfusato e Hemodiluição</h2>
+    <div class="info-box">
+      <div class="info-box-title">📊 Cálculo de Volume de Perfusato</div>
+      <p style="font-size: var(--font-size-sm); margin: 0;">Calcula o volume exato de perfusato necessário para atingir o hematócrito final desejado.</p>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="ph-peso">Peso (kg)</label>
+        <input type="number" id="ph-peso" min="1" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label for="ph-htpre">Hematócrito pré-CEC (%)</label>
+        <input type="number" id="ph-htpre" step="0.1" min="1" max="100" />
+      </div>
+      <div class="form-group">
+        <label for="ph-htfinal">Hematócrito final desejado (%)</label>
+        <input type="number" id="ph-htfinal" step="0.1" min="1" max="100" />
+      </div>
+      <div class="form-group">
+        <label for="ph-prime">Prime volume (mL)</label>
+        <input type="number" id="ph-prime" min="0" step="1" />
+      </div>
+      <div class="form-group">
+        <label for="ph-htprime">Ht do prime (%) - Default: 0%</label>
+        <input type="number" id="ph-htprime" min="0" max="100" step="0.1" value="0" />
+      </div>
+    </div>
+    <div id="perfusato-result" style="display:none" class="results"></div>
+  </div>
+</div>
+
+<!-- TAB 9: RVS/SVR -->
+<div id="rvs" class="tab-content">
+  <div class="card">
+    <h2 class="card-title">RVS/SVR</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="rvs-pam">Pressão Arterial Média (PAM, mmHg)</label>
+        <input type="number" id="rvs-pam" min="0" step="1" />
+      </div>
+      <div class="form-group">
+        <label for="rvs-fluxo">Fluxo da bomba (L/min)</label>
+        <input type="number" id="rvs-fluxo" min="0" step="0.1" />
+      </div>
+    </div>
+    <div id="rvs-result" style="display:none" class="results"></div>
+  </div>
+</div>
+
+<!-- TAB 10: DROGAS VASOATIVAS -->
+<div id="vasoativas" class="tab-content">
+  <div class="card">
+    <h2 class="card-title">Drogas Vasoativas</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="vaso-droga">Fármaco</label>
+        <select id="vaso-droga">
+          <option value="">Selecione...</option>
+          <option value="aramin">Aramin</option>
+          <option value="nipride">Nipride</option>
+          <option value="tridil">Tridil</option>
+        </select>
+      </div>
+    </div>
+    <div id="vasoativa-info" class="drug-info" style="display:none"></div>
+    <div id="vasoativa-preparo" class="preparation-steps" style="display:none"></div>
+    <div id="vasoativa-bolus" class="bolus-info" style="display:none"></div>
+  </div>
+</div>
+
+<!-- TAB 11: AVALIAÇÃO PERFUSÃO (GASOMETRIA) -->
+<div id="gasometria" class="tab-content">
+  <div class="card">
+    <h2 class="card-title">Avaliação Perfusão (Gasometria)</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="gas-peso">Peso (kg)</label>
+        <input type="number" id="gas-peso" min="1" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label for="gas-lact">Lactato (mmol/L)</label>
+        <input type="number" id="gas-lact" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label for="gas-ph">pH</label>
+        <input type="number" id="gas-ph" step="0.01" />
+      </div>
+      <div class="form-group">
+        <label for="gas-paco2">PaCO₂ (mmHg)</label>
+        <input type="number" id="gas-paco2" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label for="gas-baseexcess">Base Excess (mEq/L)</label>
+        <input type="number" id="gas-baseexcess" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label for="gas-hb">Hemoglobina (g/dL)</label>
+        <input type="number" id="gas-hb" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label for="gas-sao2">SaO2 (%)</label>
+        <input type="number" id="gas-sao2" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label for="gas-svo2">SvO2 (%)</label>
+        <input type="number" id="gas-svo2" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label for="gas-pvco2">PvCO₂ (mmHg)</label>
+        <input type="number" id="gas-pvco2" step="0.1" />
+      </div>
+    </div>
+    <div id="gasometria-result" style="display:none" class="results"></div>
+  </div>
+</div>
+  </div>
+
+  <script>
+    // Estado global da aplicação
+    const state = {
+      currentTab: 'perfusao',
+      cannulaData: [
+        {weightRange: '1-2', arterial: '08F - 500ml', arterialFlow: 500, venousVCS: 12, venousVCI: 12, extra1: '', extra2: ''},
+        {weightRange: '2.1-3', arterial: '08F - 500ml', arterialFlow: 500, venousVCS: 12, venousVCI: 14, extra1: '', extra2: ''},
+        {weightRange: '3.1-5', arterial: '10F - 700ml', arterialFlow: 700, venousVCS: 14, venousVCI: 16, extra1: '', extra2: ''},
+        {weightRange: '5.1-8', arterial: '10F - 700ml', arterialFlow: 700, venousVCS: 16, venousVCI: 18, extra1: '', extra2: ''},
+        {weightRange: '8.1-10', arterial: '12F - 1500ml', arterialFlow: 1500, venousVCS: 18, venousVCI: 20, extra1: '', extra2: ''},
+        {weightRange: '10.1-15', arterial: '12F - 1500ml', arterialFlow: 1500, venousVCS: 20, venousVCI: 22, extra1: '', extra2: ''},
+        {weightRange: '15.1-20', arterial: '14F - 2000ml', arterialFlow: 2000, venousVCS: 22, venousVCI: 24, extra1: '', extra2: ''},
+        {weightRange: '20.1-30', arterial: '16F - 2500ml', arterialFlow: 2500, venousVCS: 24, venousVCI: 28, extra1: '', extra2: ''},
+        {weightRange: '30.1-40', arterial: '18F - 3500ml', arterialFlow: 3500, venousVCS: 28, venousVCI: 32, extra1: '', extra2: ''},
+        {weightRange: '40.1-50', arterial: '20F - 4500ml', arterialFlow: 4500, venousVCS: 32, venousVCI: 36, extra1: '', extra2: ''},
+        {weightRange: '50.1-60', arterial: '22F - 5500ml', arterialFlow: 5500, venousVCS: 36, venousVCI: 40, extra1: '', extra2: ''},
+        {weightRange: '60.1-80', arterial: '22F - 5500ml', arterialFlow: 5500, venousVCS: 36, venousVCI: 40, extra1: '2E 28/40', extra2: ''},
+        {weightRange: '80.1-100', arterial: '24F - 7000ml', arterialFlow: 7000, venousVCS: 40, venousVCI: 42, extra1: '2E 36/51', extra2: '3E 28/36/46'},
+        {weightRange: '100+', arterial: '24F - 7000ml', arterialFlow: 7000, venousVCS: 40, venousVCI: 42, extra1: '2E 36/51', extra2: '3E 28/36/46'}
+      ]
+    };
+
+    // Troca de abas
+    function switchTab(tabName, buttonElement) {
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      const tabContent = document.getElementById(tabName);
+      if (tabContent) {
+        tabContent.classList.add('active');
+      }
+      if (buttonElement) {
+        buttonElement.classList.add('active');
+      }
+      state.currentTab = tabName;
+    }
+
+    // TAB 1: PERFUSÃO TECIDUAL
+    function calcularPerfusao() {
+      const peso = parseFloat(document.getElementById('pt-peso').value);
+      const altura = parseFloat(document.getElementById('pt-altura').value);
+      const fluxo = parseFloat(document.getElementById('pt-fluxo').value);
+      if (!peso || !altura) return;
+      const bsa = 0.007184 * Math.pow(peso, 0.425) * Math.pow(altura, 0.725);
+      const fluxoTotal = bsa * fluxo;
+      document.getElementById('pt-bsa').textContent = bsa.toFixed(3) + ' m²';
+      document.getElementById('pt-fluxom2').textContent = fluxo + ' L/min/m²';
+      document.getElementById('pt-fluxototal').textContent = fluxoTotal.toFixed(2) + ' L/min';
+      document.getElementById('pt-result').style.display = 'block';
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      ['pt-peso', 'pt-altura', 'pt-fluxo'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', calcularPerfusao);
+      });
+    });
+
+    // TAB 2: CÂNULAS
+    function calcularCanulas() {
+      const peso = parseFloat(document.getElementById('can-peso').value);
+      const fluxo = parseFloat(document.getElementById('can-fluxo').value) || 0;
+      if (!peso) return;
+      let cannula = null;
+      if (peso >= 100) {
+        cannula = state.cannulaData[state.cannulaData.length - 1];
+      } else {
+        for (let c of state.cannulaData) {
+          const parts = c.weightRange.split('-');
+          if (parts.length === 2) {
+            const min = parseFloat(parts[0]);
+            const max = parseFloat(parts[1]);
+            if (peso >= min && peso <= max) {
+              cannula = c;
+              break;
+            }
+          }
+        }
+      }
+      if (!cannula) return;
+      let html = `<div class="result-item"><span class="result-label">Arterial Cannula</span><span class="result-value">${cannula.arterial}</span></div>`;
+      html += `<div class="result-item"><span class="result-label">Venous VCS</span><span class="result-value">${cannula.venousVCS}</span></div>`;
+      html += `<div class="result-item"><span class="result-label">Venous VCI</span><span class="result-value">${cannula.venousVCI}</span></div>`;
+      if (cannula.extra1) html += `<div class="result-item"><span class="result-label">Venous Extra1</span><span class="result-value">${cannula.extra1}</span></div>`;
+      if (cannula.extra2) html += `<div class="result-item"><span class="result-label">Venous Extra2</span><span class="result-value">${cannula.extra2}</span></div>`;
+      document.getElementById('canula-result').innerHTML = html;
+      document.getElementById('canula-result').style.display = 'block';
+      let warning = '';
+      if (fluxo && (fluxo * 1000) > cannula.arterialFlow) {
+        warning = '<span class="status-badge status-error">⚠ Atenção: Fluxo desejado excede capacidade da cânula arterial!</span>';
+      }
+      document.getElementById('canula-warning').innerHTML = warning;
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      ['can-peso', 'can-fluxo'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', calcularCanulas);
+      });
+    });
+
+    // TAB 3: CARDIOPLEGIA DEL NIDO
+    function calcularDelNido() {
+      const peso = parseFloat(document.getElementById('dn-peso').value);
+      if (!peso) return;
+      const dose = Math.min(peso * 20, 1000);
+      const plasmalyte = 1000;
+      const manitol = 16.3;
+      const mgso4 = 4.0;
+      const nahco3 = 13.0;
+      const kcl = 13.0;
+      const lidocaine = 13.0;
+      let html = `<div class="result-item"><span class="result-label">Dose Total a Preparar</span><span class="result-value">${dose.toFixed(1)} mL</span></div>`;
+      html += '<div style="margin-top:16px; font-weight:600">Ingredientes:</div>';
+      html += `<div class="result-item"><span class="result-label">PlasmALyte A</span><span class="result-value">${plasmalyte} mL</span></div>`;
+      html += `<div class="result-item"><span class="result-label">Manitol 20%</span><span class="result-value">${manitol} mL</span></div>`;
+      html += `<div class="result-item"><span class="result-label">Magnesium Sulfate 50%</span><span class="result-value">${mgso4} mL</span></div>`;
+      html += `<div class="result-item"><span class="result-label">Sodium Bicarbonate 8.4%</span><span class="result-value">${nahco3} mL</span></div>`;
+      html += `<div class="result-item"><span class="result-label">Potassium Chloride 2 mEq/mL</span><span class="result-value">${kcl} mL</span></div>`;
+      html += `<div class="result-item"><span class="result-label">Lidocaine 1%</span><span class="result-value">${lidocaine} mL</span></div>`;
+      document.getElementById('delnido-result').innerHTML = html;
+      document.getElementById('delnido-result').style.display = 'block';
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      const el = document.getElementById('dn-peso');
+      if (el) el.addEventListener('input', calcularDelNido);
+    });
+
+    // TAB 4: HEPARINA/PROTAMINA
+    function calcularHeparina() {
+      const peso = parseFloat(document.getElementById('hep-peso').value);
+      const mgkg = parseFloat(document.getElementById('hep-mgkg').value);
+      const admin = parseFloat(document.getElementById('hep-admin').value) || 0;
+      if (!peso || !mgkg) return;
+      const heparinDose = (peso * mgkg) / 50;
+      const protamineAmps = Math.ceil(admin * 1.0);
+      let html = `<div class="result-item"><span class="result-label">Dose Heparina Calculada</span><span class="result-value">${heparinDose.toFixed(2)} mL</span></div>`;
+      if (admin > 0) {
+        html += `<div class="result-item"><span class="result-label">Ampolas Protamina Necessárias</span><span class="result-value">${protamineAmps}</span></div>`;
+      }
+      document.getElementById('heparina-result').innerHTML = html;
+      document.getElementById('heparina-result').style.display = 'block';
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      ['hep-peso', 'hep-mgkg', 'hep-admin'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', calcularHeparina);
+      });
+    });
+
+    // TAB 5: CORREÇÕES ELETROLÍTICAS
+    function calcularEletroliticas() {
+      const peso = parseFloat(document.getElementById('el-peso').value);
+      // K
+      const kAtual = parseFloat(document.getElementById('k-atual').value);
+      const kAlvo = parseFloat(document.getElementById('k-alvo').value);
+      // Na
+      const naAtual = parseFloat(document.getElementById('na-atual').value);
+      const naAlvo = parseFloat(document.getElementById('na-alvo').value);
+      // Ca
+      const caAtual = parseFloat(document.getElementById('ca-atual').value);
+      const caAlvo = parseFloat(document.getElementById('ca-alvo').value);
+      // Mg
+      const mgAtual = parseFloat(document.getElementById('mg-atual').value);
+      const mgAlvo = parseFloat(document.getElementById('mg-alvo').value);
+      // BE
+      const be = parseFloat(document.getElementById('be-atual').value);
+      // Glu
+      const glucAtual = parseFloat(document.getElementById('gluc-atual').value);
+      const glucAlvo = parseFloat(document.getElementById('gluc-alvo').value);
+      let html = '';
+      // K
+      if (peso && !isNaN(kAtual) && !isNaN(kAlvo)) {
+        const kDeficit = Math.max(0, (kAlvo - kAtual) * peso * 0.25);
+        const kcl191 = kDeficit / 2.56;
+        html += `<div class='result-item'><span class='result-label'>Déficit K⁺</span><span class='result-value'>${kDeficit.toFixed(1)} mEq</span></div>`;
+        html += `<div class='result-item'><span class='result-label'>KCl 19,1% (mL)</span><span class='result-value'>${kcl191.toFixed(1)} mL</span></div>`;
+      }
+      // Na
+      if (peso && !isNaN(naAtual) && !isNaN(naAlvo)) {
+        const naDeficit = Math.max(0, (naAlvo - naAtual) * peso * 0.6);
+        const nacl3 = (naDeficit / 513) * 1000;
+        html += `<div class='result-item'><span class='result-label'>Déficit Na⁺</span><span class='result-value'>${naDeficit.toFixed(1)} mEq</span></div>`;
+        html += `<div class='result-item'><span class='result-label'>NaCl 3% (mL)</span><span class='result-value'>${nacl3.toFixed(1)} mL</span></div>`;
+      }
+      // Ca
+      if (peso && !isNaN(caAtual) && !isNaN(caAlvo)) {
+        const caDeficit = Math.max(0, (caAlvo - caAtual) * peso * 0.2 / 0.45);
+        html += `<div class='result-item'><span class='result-label'>Gluconato de Cálcio 10% (mL)</span><span class='result-value'>${caDeficit.toFixed(1)} mL</span></div>`;
+      }
+      // Mg
+      if (peso && !isNaN(mgAtual) && !isNaN(mgAlvo)) {
+        const mgMl = ((mgAlvo - mgAtual) * peso * 0.25) / 4.0;
+        html += `<div class='result-item'><span class='result-label'>MgSO₄ 50% (mL)</span><span class='result-value'>${mgMl.toFixed(1)} mL</span></div>`;
+      }
+      // HCO3
+      if (peso && !isNaN(be) && be !== 0) {
+        const bicarbMl = Math.abs(be) * peso * 0.3 / 1.0;
+        html += `<div class='result-item'><span class='result-label'>NaHCO₃ 8,4% (mL)</span><span class='result-value'>${bicarbMl.toFixed(1)} mL</span></div>`;
+      }
+      // Insulina
+      if (!isNaN(glucAtual) && !isNaN(glucAlvo)) {
+        const ins = Math.max(0, (glucAtual - glucAlvo) / 30);
+        html += `<div class='result-item'><span class='result-label'>Insulina Recomendada</span><span class='result-value'>${ins.toFixed(1)} UI</span></div>`;
+      }
+      document.getElementById('eletroliticas-result').innerHTML = html;
+      document.getElementById('eletroliticas-result').style.display = html ? 'block' : 'none';
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      [
+        'el-peso', 'k-atual', 'k-alvo', 'na-atual', 'na-alvo',
+        'ca-atual', 'ca-alvo', 'mg-atual', 'mg-alvo', 'be-atual',
+        'gluc-atual', 'gluc-alvo'
+      ].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', calcularEletroliticas);
+      });
+    });
+    // TAB 6: FUROSEMIDA
+    function calcularFurosemida() {
+      const peso = parseFloat(document.getElementById('furo-peso').value);
+      const doseOpt = document.getElementById('furo-dose').value;
+      if (!peso) return;
+      let doseMg = 0;
+      if (doseOpt === '0.5' || doseOpt === '1.0') {
+        doseMg = peso * parseFloat(doseOpt);
+      } else {
+        doseMg = parseFloat(doseOpt);
+      }
+      doseMg = Math.min(doseMg, 80);
+      const volAmp = doseMg / 10;
+      const volSyr = doseMg / 2;
+      let html = `<div class="result-item"><span class="result-label">Dose (mg)</span><span class="result-value">${doseMg.toFixed(1)} mg</span></div>`;
+      html += `<div class="result-item"><span class="result-label">Volume Ampola (10 mg/mL)</span><span class="result-value">${volAmp.toFixed(2)} mL</span></div>`;
+      html += `<div class="result-item"><span class="result-label">Volume Seringa (2 mg/mL)</span><span class="result-value">${volSyr.toFixed(2)} mL</span></div>`;
+      document.getElementById('furosemida-result').innerHTML = html;
+      document.getElementById('furosemida-result').style.display = 'block';
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      ['furo-peso', 'furo-dose'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', calcularFurosemida);
+      });
+    });
+
+    // TAB 7: MANITOL
+    function calcularManitol() {
+      const peso = parseFloat(document.getElementById('mani-peso').value);
+      const doseGkg = parseFloat(document.getElementById('mani-dose').value);
+      if (!peso || !doseGkg) return;
+      let doseG = peso * doseGkg;
+      doseG = Math.min(doseG, 50);
+      const doseMg = doseG * 1000;
+      const vol = doseG / 0.2;
+      let html = `<div class="result-item"><span class="result-label">Dose (g)</span><span class="result-value">${doseG.toFixed(1)} g</span></div>`;
+      html += `<div class="result-item"><span class="result-label">Dose (mg)</span><span class="result-value">${doseMg.toFixed(0)} mg</span></div>`;
+      html += `<div class="result-item"><span class="result-label">Volume (mL)</span><span class="result-value">${vol.toFixed(1)} mL</span></div>`;
+      document.getElementById('manitol-result').innerHTML = html;
+      document.getElementById('manitol-result').style.display = 'block';
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      ['mani-peso', 'mani-dose'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', calcularManitol);
+      });
+    });
+
+    // TAB 8: PERFUSATO E HEMODILUIÇÃO
+    function calcularPerfusato() {
+      const peso = parseFloat(document.getElementById('ph-peso').value);
+      const htPre = parseFloat(document.getElementById('ph-htpre').value);
+      const htFinal = parseFloat(document.getElementById('ph-htfinal').value);
+      const prime = parseFloat(document.getElementById('ph-prime').value);
+      const htPrime = parseFloat(document.getElementById('ph-htprime').value) || 0;
+      
+      if (!peso || !htPre || !htFinal || !prime) return;
+      
+      // Calculations according to the formula
+      // 1. VST (Volume Sanguíneo Total)
+      const vst = peso * 70;
+      
+      // 2. Volume de RBC no paciente
+      const rbcPatient = vst * (htPre / 100);
+      
+      // 3. Volume de RBC no prime
+      const rbcPrime = prime * (htPrime / 100);
+      
+      // 4. Total RBC volume after adding prime
+      const totalRBC = rbcPatient + rbcPrime;
+      
+      // 5. Total volume after CPB start
+      const totalVolAfterPrime = vst + prime;
+      
+      // 6. Hct after prime alone
+      const hctAfterPrime = (totalRBC / totalVolAfterPrime) * 100;
+      
+      // 7. Desired final volume
+      const desiredFinalVolume = totalRBC / (htFinal / 100);
+      
+      // 8. Perfusate volume needed
+      const perfusateNeeded = desiredFinalVolume - (vst + prime);
+      
+      // Expected final Hct (should match htFinal)
+      const expectedFinalHct = (totalRBC / desiredFinalVolume) * 100;
+      
+      // Safety check: perfusate per kg
+      const perfusatePerKg = perfusateNeeded / peso;
+      const isSafe = perfusatePerKg <= 20;
+      
+      let html = '<div style="font-weight:600; margin-bottom:12px; font-size:var(--font-size-lg); color:var(--color-primary)">Cálculos:</div>';
+      html += `<div class="result-item"><span class="result-label">VST (Volume Sanguíneo Total)</span><span class="result-value">${vst.toFixed(0)} mL</span></div>`;
+      html += `<div class="result-item"><span class="result-label">Prime volume</span><span class="result-value">${prime.toFixed(0)} mL</span></div>`;
+      html += `<div class="result-item"><span class="result-label">Volume RBC paciente</span><span class="result-value">${rbcPatient.toFixed(0)} mL</span></div>`;
+      html += `<div class="result-item"><span class="result-label">Hct após prime</span><span class="result-value">${hctAfterPrime.toFixed(1)}%</span></div>`;
+      
+      html += '<div style="margin: 20px 0; padding: 16px; background: var(--color-bg-1); border-radius: var(--radius-md); border: 2px solid var(--color-primary);">';
+      html += '<div style="font-size: var(--font-size-xl); font-weight: 700; margin-bottom: 8px; color: var(--color-text)">📊 VOLUME DE PERFUSATO NECESSÁRIO</div>';
+      html += `<div style="font-size: var(--font-size-3xl); font-weight: 700; color: var(--color-primary)">${perfusateNeeded.toFixed(0)} mL</div>`;
+      html += `<div style="font-size: var(--font-size-sm); margin-top: 8px; color: var(--color-text-secondary)">(${perfusatePerKg.toFixed(1)} mL/kg)</div>`;
+      html += '</div>';
+      
+      html += `<div class="result-item"><span class="result-label">Hct final esperado</span><span class="result-value">${expectedFinalHct.toFixed(1)}%</span></div>`;
+      
+      // Safety status
+      if (isSafe) {
+        html += '<div style="margin-top:16px"><span class="status-badge status-success">✓ Hemodiluição segura (≤ 20 mL/kg)</span></div>';
+      } else {
+        html += '<div style="margin-top:16px"><span class="status-badge status-error">⚠ Atenção: Hemodiluição excessiva (&gt; 20 mL/kg)</span></div>';
+      }
+      
+      document.getElementById('perfusato-result').innerHTML = html;
+      document.getElementById('perfusato-result').style.display = 'block';
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      ['ph-peso', 'ph-htpre', 'ph-htfinal', 'ph-prime', 'ph-htprime'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', calcularPerfusato);
+      });
+    });
+
+    // TAB 9: RVS/SVR
+    function calcularRVS() {
+      const pam = parseFloat(document.getElementById('rvs-pam').value);
+      const fluxo = parseFloat(document.getElementById('rvs-fluxo').value);
+      if (!pam || !fluxo) return;
+      const rvs = (pam / fluxo) * 80;
+      let status = '';
+      if (rvs >= 800 && rvs <= 1200) {
+        status = '<span class="status-badge status-success">✓ RVS dentro da faixa normal (800-1200)</span>';
+      } else {
+        status = '<span class="status-badge status-error">⚠ RVS fora da faixa normal (800-1200)</span>';
+      }
+      let html = `<div class="result-item"><span class="result-label">RVS (dyn·s/cm⁵)</span><span class="result-value">${rvs.toFixed(1)}</span></div>`;
+      html += '<div style="margin-top:16px">' + status + '</div>';
+      document.getElementById('rvs-result').innerHTML = html;
+      document.getElementById('rvs-result').style.display = 'block';
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      ['rvs-pam', 'rvs-fluxo'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', calcularRVS);
+      });
+    });
+
+    // TAB 10: DROGAS VASOATIVAS
+    const vasoDrugs = {
+      aramin: {
+        name: 'Aramin',
+        presentation: 'Ampola com 10 mL contendo 10 mg de Metaraminol',
+        droga_ml: 10,
+        solvente: 'Água para Injeção',
+        solvente_ml: 10,
+        total_volume: 20,
+        concentration: '1 mg/mL',
+        bolus_volume: '1.5',
+        bolus_unit: 'mL',
+        application: 'Reservatório CEC',
+        time: 'Imediato',
+        notes: ''
+      },
+      nipride: {
+        name: 'Nipride (Nitroprussiato de Sódio)',
+        presentation: 'Frasco com 5 mL contendo 50 mg de Nitroprussiato',
+        droga_ml: 5,
+        solvente: 'Soro Glicosado 5%',
+        solvente_ml: 95,
+        total_volume: 100,
+        concentration: '0.5 mg/mL (500 mcg/mL)',
+        bolus_volume: '0.5-1.0',
+        bolus_unit: 'mL',
+        application: 'Reservatório CEC',
+        time: '1-2 minutos LENTO',
+        notes: 'Proteger da luz (papel alumínio)'
+      },
+      tridil: {
+        name: 'Tridil (Nitroglicerina)',
+        presentation: 'Ampola com 1 mL contendo 10 mg de Nitroglicerina',
+        droga_ml: 1,
+        solvente: 'Soro Glicosado 5%',
+        solvente_ml: 90,
+        total_volume: 100,
+        concentration: '0.1 mg/mL (100 mcg/mL)',
+        bolus_volume: '0.1-0.2',
+        bolus_unit: 'mL',
+        application: 'Reservatório CEC',
+        time: '1-2 minutos LENTO',
+        notes: 'Proteger da luz (papel alumínio)'
+      }
+    };
+    function atualizarVasoativaInfo() {
+      const droga = document.getElementById('vaso-droga').value;
+      const infoDiv = document.getElementById('vasoativa-info');
+      const preparoDiv = document.getElementById('vasoativa-preparo');
+      const bolusDiv = document.getElementById('vasoativa-bolus');
+      
+      if (!droga || !vasoDrugs[droga]) {
+        infoDiv.style.display = 'none';
+        preparoDiv.style.display = 'none';
+        bolusDiv.style.display = 'none';
+        return;
+      }
+      
+      const d = vasoDrugs[droga];
+      
+      // Info box (blue)
+      infoDiv.innerHTML = `<div class="info-box-title">📦 Apresentação</div><p style="margin:0; font-size: var(--font-size-base);">${d.presentation}</p>`;
+      infoDiv.style.display = 'block';
+      
+      // Preparation steps (green)
+      let preparoHTML = '<div style="font-weight:600; font-size: var(--font-size-lg); margin-bottom: 12px; color: var(--color-text)">🧪 PREPARO DA SOLUÇÃO</div>';
+      preparoHTML += `<div class="step">1️⃣ Aspire <strong>${d.droga_ml} mL</strong> de ${d.name}</div>`;
+      preparoHTML += `<div class="step">2️⃣ Aspire <strong>${d.solvente_ml} mL</strong> de ${d.solvente}</div>`;
+      preparoHTML += `<div class="step">3️⃣ Total: <strong>${d.total_volume} mL</strong> (concentração: <strong>${d.concentration}</strong>)</div>`;
+      preparoDiv.innerHTML = preparoHTML;
+      preparoDiv.style.display = 'block';
+      
+      // Bolus info (orange/yellow)
+      let bolusHTML = '<div style="font-weight:600; font-size: var(--font-size-lg); margin-bottom: 12px; color: var(--color-text)">💉 BOLUS</div>';
+      bolusHTML += `<div class="step"><strong>Volume a aspirar:</strong> ${d.bolus_volume} ${d.bolus_unit}</div>`;
+      bolusHTML += `<div class="step"><strong>Aplicação:</strong> ${d.application}</div>`;
+      bolusHTML += `<div class="step"><strong>Tempo de infusão:</strong> ${d.time}</div>`;
+      if (d.notes) {
+        bolusHTML += `<div class="step" style="margin-top: 12px; padding: 8px; background: rgba(var(--color-warning-rgb), 0.15); border-radius: var(--radius-sm); border-left: 3px solid var(--color-warning)"><strong>⚠ Observação:</strong> ${d.notes}</div>`;
+      }
+      bolusDiv.innerHTML = bolusHTML;
+      bolusDiv.style.display = 'block';
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      const vasoDroga = document.getElementById('vaso-droga');
+      if (vasoDroga) vasoDroga.addEventListener('change', atualizarVasoativaInfo);
+    });
+    // TAB 11: GASOMETRIA (placeholder)
+    // TAB 11: AVALIAÇÃO PERFUSÃO (GASOMETRIA)
+    function calcularGasometria() {
+      const peso = parseFloat(document.getElementById('gas-peso').value);
+      const lact = parseFloat(document.getElementById('gas-lact').value);
+      const ph = parseFloat(document.getElementById('gas-ph').value);
+      const paco2 = parseFloat(document.getElementById('gas-paco2').value);
+      const be = parseFloat(document.getElementById('gas-baseexcess').value);
+      const hb = parseFloat(document.getElementById('gas-hb').value);
+      const sao2 = parseFloat(document.getElementById('gas-sao2').value);
+      const svo2 = parseFloat(document.getElementById('gas-svo2').value);
+      const pvco2 = parseFloat(document.getElementById('gas-pvco2').value);
+      if (!peso) return;
+      let html = '<div style="font-weight:600; margin-bottom:12px">Análise:</div>';
+      if (lact) {
+        let lactStatus = lact < 2.0 ? 'Normal' : (lact < 4.0 ? 'Elevado' : 'Muito elevado');
+        let lactColor = lact < 2.0 ? 'status-success' : 'status-error';
+        html += `<div class="result-item"><span class="result-label">Lactato</span><span class="result-value">${lact.toFixed(1)} mmol/L <span class="status-badge ${lactColor}">${lactStatus}</span></span></div>`;
+      }
+      if (ph) {
+        let phStatus = ph < 7.35 ? 'Acidose' : (ph > 7.45 ? 'Alcalose' : 'Normal');
+        let phColor = phStatus === 'Normal' ? 'status-success' : 'status-error';
+        html += `<div class="result-item"><span class="result-label">pH</span><span class="result-value">${ph.toFixed(2)} <span class="status-badge ${phColor}">${phStatus}</span></span></div>`;
+      }
+      if (sao2 && svo2) {
+        const dao2 = sao2 - svo2;
+        const o2er = ((sao2 - svo2) / sao2) * 100;
+        let dao2Status = dao2 < 30 ? 'Adequado' : 'Elevado (pode indicar baixa perfusão)';
+        let dao2Color = dao2 < 30 ? 'status-success' : 'status-error';
+        html += `<div class="result-item"><span class="result-label">ΔAO2</span><span class="result-value">${dao2.toFixed(1)}% <span class="status-badge ${dao2Color}">${dao2Status}</span></span></div>`;
+        html += `<div class="result-item"><span class="result-label">O2ER</span><span class="result-value">${o2er.toFixed(1)}%</span></div>`;
+      }
+      if (pvco2 && paco2) {
+        const dpvco2 = pvco2 - paco2;
+        let dpvStatus = dpvco2 < 6 ? 'Perfusão adequada' : 'Perfusão inadequada';
+        let dpvColor = dpvco2 < 6 ? 'status-success' : 'status-error';
+        html += `<div class="result-item"><span class="result-label">ΔPvCO2</span><span class="result-value">${dpvco2.toFixed(1)} mmHg <span class="status-badge ${dpvColor}">${dpvStatus}</span></span></div>`;
+      }
+      if (hb) {
+        let hbStatus = hb < 7 ? 'Anemia severa' : (hb < 10 ? 'Anemia leve' : (hb > 17 ? 'Policitemia' : 'Normal'));
+        let hbColor = hbStatus === 'Normal' ? 'status-success' : 'status-error';
+        html += `<div class="result-item"><span class="result-label">Hemoglobina</span><span class="result-value">${hb.toFixed(1)} g/dL <span class="status-badge ${hbColor}">${hbStatus}</span></span></div>`;
+      }
+      document.getElementById('gasometria-result').innerHTML = html;
+      document.getElementById('gasometria-result').style.display = 'block';
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      ['gas-peso', 'gas-lact', 'gas-ph', 'gas-paco2', 'gas-baseexcess', 'gas-hb', 'gas-sao2', 'gas-svo2', 'gas-pvco2'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', calcularGasometria);
+      });
+    });
+  </script>
+</body>
+</html>
